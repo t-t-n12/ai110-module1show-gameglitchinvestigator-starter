@@ -25,28 +25,38 @@ It wrote the code, ran away, and now the game is unplayable.
 
 ## 📝 Document Your Experience
 
-- [ ] Describe the game's purpose.
-- [ ] Detail which bugs you found.
-- [ ] Explain what fixes you applied.
+- [x] Describe the game's purpose: A Streamlit-based number guessing game where the player picks a difficulty (Easy/Normal/Hard) and tries to guess a secret number within a limited number of attempts, using "Too High"/"Too Low" hints.
 
-## 📸 Demo Walkthrough
+- [x] Detail which bugs you found: 
+(1) Hints were reversed — guessing higher than the secret said "Go HIGHER!" instead of "Go LOWER!". 
+(2) Attempts counter was off-by-one — it initialized at 1 instead of 0, so "Attempts left" was always one short. 
+(3) A related bug caused score to behave inconsistently on "Too High" outcomes depending on whether the attempt number was even or odd.
 
-Describe your fixed game in numbered steps so a reader can follow along without watching a video:
+- [x] Explain what fixes you applied:
+I refactored the core logic (get_range_for_difficulty, parse_guess, check_guess, update_score) out of app.py into logic_utils.py. I fixed the reversed hint direction in check_guess so guessing higher correctly returns "Go LOWER!". I fixed the attempts off-by-one bug by initializing st.session_state.attempts to 0 instead of 1. I verified both fixes with pytest (6/6 tests passing) and by manually testing the live app.
 
-1. <!-- Describe this step -->
-2. <!-- Describe this step -->
-3. <!-- Describe this step -->
-4. <!-- Describe this step -->
-5. <!-- Add more steps as needed -->
+## Demo Walkthrough
+1. Game starts in Hard difficulty. Secret number is chosen between 1 and 50. "Attempts left: 5" is shown.
+2. User enters a guess of 10 → Game returns "Too High — Go LOWER!"
+3. User enters a guess of 8 → Game returns "Too Low — Go HIGHER!"
+4. Score updates after each guess (decreases since neither guess was a win).
+5. "Attempts left" decreases by 1 after each guess (now shows 3 remaining).
+6. User enters a guess of 9, which matches the secret number → Game returns "🎉 Correct!" and displays balloons.
+7. Final score is shown, and the game status changes to "won" — further guesses are blocked until "New Game" is clicked.
 
 **Screenshot** *(optional)*: <!-- Insert a screenshot of your fixed, winning game here -->
 
 ## 🧪 Test Results
-
 ```
-# Paste your pytest output here, e.g.:
-# pytest tests/
-# ========================= X passed in 0.XXs =========================
+============================= test session starts ==============================
+platform darwin -- Python 3.14.5, pytest-9.1.1, pluggy-1.6.0
+rootdir: /Users/nguyentuetam/ai110-module1show-gameglitchinvestigator-starter
+plugins: anyio-4.14.0
+collected 6 items
+
+tests/test_game_logic.py ......                                          [100%]
+
+============================== 6 passed in 0.01s ===============================
 ```
 
 ## 🚀 Stretch Features

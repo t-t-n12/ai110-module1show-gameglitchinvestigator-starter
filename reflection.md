@@ -50,14 +50,18 @@ Yes. I asked Claude Code to generate the pytest tests, and it wrote test_hint_di
 ---
 
 ## 4. What did you learn about Streamlit and state?
-
 - How would you explain Streamlit "reruns" and session state to a friend who has never used Streamlit?
-
+Streamlit runs again the whole script every time you click something, so normal variables would reset each time. `st.session_state` is a storage box that survives those reruns, so things like score and attempts stay remembered between guesses.
 ---
 
 ## 5. Looking ahead: your developer habits
 
 - What is one habit or strategy from this project that you want to reuse in future labs or projects?
   - This could be a testing habit, a prompting strategy, or a way you used Git.
+Testing the exact edge case that caused the bug, not just trusting that tests pass.
+
 - What is one thing you would do differently next time you work with AI on a coding task?
+Ask the AI to explain the bug's root cause before asking for a fix, not after.
+
 - In one or two sentences, describe how this project changed the way you think about AI generated code.
+AI fixes can look correct (no errors, tests pass) while still missing the real bug, so I need to understand the fix myself before trusting it.
